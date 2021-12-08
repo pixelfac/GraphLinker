@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class Node
 {
-    string userID;
-    string handle;
-    bool verified;
-    List<string> followingList;
-    int followingCount;
-    int followerCount;
+    public string userID { get; }
+    public string handle { get; }
+    bool verified { get; }
+    public int followingCount { get; }
+    public int followerCount { get; }
+    HashSet<string> followingList;
+
+    public void AddFollowing(string handle)
+	{
+        followingList.Add(handle);
+	}
 
 }
