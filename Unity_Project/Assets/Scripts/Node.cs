@@ -6,12 +6,21 @@ public class Node
 {
     public string userID { get; }
     public string handle { get; }
-    bool verified { get; }
+    public bool verified { get; }
     public int followingCount { get; }
     public int followerCount { get; }
-    HashSet<string> followingList;
+    HashSet<string> followingList = new HashSet<string>();
 
-    public void AddFollowing(string handle)
+    public Node(string userID, string handle, bool verified, int followerCount, int followingCount)
+	{
+        this.userID = userID;
+        this.handle = handle;
+        this.verified = verified;
+        this.followerCount = followerCount;
+        this.followingCount = followingCount;
+	}
+
+    public void AddFollowing(string handle = "temp")
 	{
         followingList.Add(handle);
 	}
