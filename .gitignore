@@ -7,17 +7,17 @@ Script/obj
 #
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
 #
-/[Ll]ibrary/
-/[Tt]emp/
-/[Oo]bj/
-/[Bb]uild/
-/[Bb]uilds/
-/[Ll]ogs/
-/[Uu]ser[Ss]ettings/
+Unity_Project/[Ll]ibrary/
+Unity_Project/[Tt]emp/
+Unity_Project/[Oo]bj/
+Unity_Project/[Bb]uild/
+Unity_Project/[Bb]uilds/
+Unity_Project/[Ll]ogs/
+Unity_Project/[Uu]ser[Ss]ettings/
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
-/[Mm]emoryCaptures/
+Unity_Project/[Mm]emoryCaptures/
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
@@ -69,9 +69,9 @@ sysinfo.txt
 crashlytics-build.properties
 
 # Packed Addressables
-/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
+Unity_Project/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
 
 # Temporary auto-generated Android Assets
-/[Aa]ssets/[Ss]treamingAssets/aa.meta
-/[Aa]ssets/[Ss]treamingAssets/aa/*
+Unity_Project/[Aa]ssets/[Ss]treamingAssets/aa.meta
+Unity_Project/[Aa]ssets/[Ss]treamingAssets/aa/*
 Unity_Project/Temp/UnityLockfile
