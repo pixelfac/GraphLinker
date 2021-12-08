@@ -16,10 +16,9 @@ public class Graph : MonoBehaviour
 		LoadAllFiles();
 	}
 
+	//calls LoadFromFile each file in GraphData
 	void LoadAllFiles()
 	{
-		//TODO
-		//call LoadFromFile for each .csv in data folder
 		var currDir = Directory.GetCurrentDirectory();
 		foreach (var file in Directory.GetFiles("Assets/GraphData"))
 		{
@@ -29,6 +28,7 @@ public class Graph : MonoBehaviour
 		Debug.Log(nodeList.Count());
 	}
 
+	//creates a root node + assigns following to that node from csv
     void LoadFromFile(string filepath)
 	{
         var lines = File.ReadAllLines(filepath);
@@ -57,6 +57,9 @@ public class Graph : MonoBehaviour
 		}
 	}
 
+	//parses each line from csv
+	//Format: userID,handle,__,verified,follwerCount,followingCount,__,__
+	//returns constructed node from line data
 	Node parseLine(string line)
 	{
 		string[] args = line.Split(',');
