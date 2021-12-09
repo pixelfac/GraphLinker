@@ -22,7 +22,8 @@ public class Graph : MonoBehaviour
 		var currDir = Directory.GetCurrentDirectory();
 		foreach (var file in Directory.GetFiles("Assets/GraphData"))
 		{
-			Debug.Log(file);
+			//ignore Unity-generated meta files
+			if (file.EndsWith(".meta")) { continue; }
 			LoadFromFile(file);
 		}
 		Debug.Log(nodeList.Count());
@@ -58,18 +59,18 @@ public class Graph : MonoBehaviour
 	}
 
 	//parses each line from csv
-	//Format: userID,handle,__,verified,follwerCount,followingCount,__,__
+	//Format: userID,handle,verified,follwerCount,followingCount
 	//returns constructed node from line data
 	Node parseLine(string line)
 	{
 		string[] args = line.Split(',');
-		if (args.Length < 8) { return null; }
+		if (args.Length < 5) { return null; }
 
 		string userID = args[0];
 		string handle = args[1];
-		bool verified = Convert.ToBoolean(args[3]);
-		int followerCount = Convert.ToInt32(args[4]);
-		int followingCount = Convert.ToInt32(args[5]);
+		bool verified = Convert.ToBoolean(args[2]);
+		int followerCount = Convert.ToInt32(args[3]);
+		int followingCount = Convert.ToInt32(args[4]);
 
 		Node newNode = new Node(userID, handle, verified, followerCount, followingCount);
 
@@ -78,11 +79,33 @@ public class Graph : MonoBehaviour
 
 	public void DijkstraFind()
 	{
+		//get handles from Canvas
+		//check if handles exist in Graph
+			//print error if either don't exist
+		//start timer
+		//Call Pathfinder.Dijkstra(handle1, handle2)
+		//stop timer
+		//record time diff
+		//update Canvas with results
+			//length (if connected)
+			//time to complete operation
+			//Visualize node connection
 		throw new NotImplementedException();
 	}
 
-	public void BellmanFind()
+	public void BFSFind()
 	{
+		//get handles from Canvas
+		//check if handles exist in Graph
+			//print error if either don't exist
+		//start timer
+		//Call Pathfinder.Dijkstra(handle1, handle2)
+		//stop timer
+		//record time diff
+		//update Canvas with results
+			//length (if connected)
+			//time to complete operation
+			//Visualize node connection
 		throw new NotImplementedException();
 	}
 
