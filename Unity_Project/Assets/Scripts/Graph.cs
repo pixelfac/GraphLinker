@@ -20,6 +20,7 @@ public class Graph : MonoBehaviour
 
     //takes in handle, returns linked list of Nodes
     Dictionary<string, Node> nodeList = new Dictionary<string, Node>();
+    Dictionary<string, LinkedList<string>> adjList = new Dictionary<string, LinkedList<string>>();
 
 	public void Start()
 	{
@@ -56,6 +57,7 @@ public class Graph : MonoBehaviour
 		try
 		{
 			nodeList.Add(rootNode.handle, rootNode);
+			adjList.Add(rootNode.handle, new LinkedList<string>());
 		}
 		catch (Exception e) { }
 
@@ -68,11 +70,9 @@ public class Graph : MonoBehaviour
 			try
 			{
 				nodeList.Add(tempNode.handle, tempNode);
+				adjList[rootNode.handle].AddLast(tempNode.handle);
 			}
 			catch (Exception e) { }
-
-			rootNode.AddFollowing(tempNode.handle);
-
 		}
 	}
 
@@ -99,32 +99,34 @@ public class Graph : MonoBehaviour
 	{
 		//get handles from Canvas
 		//check if handles exist in Graph
-			//print error if either don't exist
+		//print error if either don't exist
 		//start timer
-		//Call Pathfinder.Dijkstra(handle1, handle2)
+		//Pathfinder.Dijkstra(fromUserHandle, toUserHandle);
+
 		//stop timer
 		//record time diff
 		//update Canvas with results
-			//length (if connected)
-			//time to complete operation
-			//Visualize node connection
-		throw new NotImplementedException();
+		//length (if connected)
+		//time to complete operation
+		//Visualize node connection
+
+		GameObject startNode = GameObject.Instantiate(nodePrefab, new Vector3(0, 0, 0), Quaternion.identity);
+		startNode.transform.position = new Vector3(-3, -3, 0);
 	}
 
 	public void BFSFind()
 	{
 		//get handles from Canvas
 		//check if handles exist in Graph
-			//print error if either don't exist
+		//print error if either don't exist
 		//start timer
-		//Call Pathfinder.Dijkstra(handle1, handle2)
+		//Pathfinder.Dijkstra(fromUserHandle, toUserHandle);
 		//stop timer
 		//record time diff
 		//update Canvas with results
 			//length (if connected)
 			//time to complete operation
 			//Visualize node connection
-		throw new NotImplementedException();
 	}
 
 	public void OnClick()
@@ -134,9 +136,9 @@ public class Graph : MonoBehaviour
 		//Dij = False, BFS = True
 		bool alg = ((int)AlgSwitch.value == 1);
 
-		UnityEngine.Debug.Log(fromUserHandle);
-		UnityEngine.Debug.Log(toUserHandle);
-		UnityEngine.Debug.Log(alg);
+		
+
+		DijkstraFind();
 	}
 
 
