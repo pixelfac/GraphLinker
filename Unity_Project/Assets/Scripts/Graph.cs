@@ -67,12 +67,12 @@ public class Graph : MonoBehaviour
 		Node rootNode = parseLine(lines[0]);
 		try
 		{
-			nodeList.Add(rootNode.handle, rootNode);
 			adjList.Add(rootNode.handle, new List<KeyValuePair<string, float>>());
+			nodeList.Add(rootNode.handle, rootNode);
 		}
-		catch (Exception e) { }
+		catch (Exception e) { UnityEngine.Debug.Log(e.Message); }
 
-        for (int i=1; i<lines.Length; i++)
+		for (int i=1; i<lines.Length; i++)
 		{
 			Node tempNode = parseLine(lines[i]);
 			if (tempNode is null) { continue; }
@@ -80,8 +80,8 @@ public class Graph : MonoBehaviour
 			//if node already in nodeList, ignore
 			try
 			{
-				nodeList.Add(tempNode.handle, tempNode);
 				adjList[rootNode.handle].Add(new KeyValuePair<string,float>(tempNode.handle, tempNode.GetEdgeWeight()));
+				nodeList.Add(tempNode.handle, tempNode);
 			}
 			catch (Exception e) { }
 		}
@@ -140,23 +140,34 @@ public class Graph : MonoBehaviour
 		string fromHandle = fromUser.text;
 		string toHandle = toUser.text;
 		//check if handles exist in Graph
-		if (!nodeList.ContainsKey(fromHandle) && !nodeList.ContainsKey(toHandle))
+		if (!adjList.ContainsKey(fromHandle) || !nodeList.ContainsKey(toHandle))
 		{
 			//print error if either don't exist
-			ErrorMessageField.GetComponent<TextMeshPro>().text = "ERROR: A key doesn't exist!";
+			ErrorMessageField.SetActive(true);
+			ErrorMessageField.GetComponent<TextMeshProUGUI>().text = "ERROR: A key doesn't exist!";
+			return;
 		}
 
 		//start timer
 		Stopwatch clock = new Stopwatch();
 		clock.Start();
-		Pathfinder.BFS(fromHandle, toHandle, adjList);
-		clock.Stop();
+		List<string> pathHandles = Pathfinder.BFS(fromHandle, toHandle, adjList);
 		//stop timer
+		clock.Stop();
 		//record time diff
+		double timeMilli = clock.Elapsed.TotalMilliseconds;
 		//update Canvas with results
 		//length (if connected)
+		SuccessMessageField.SetActive(true);
+		SuccessMessageField.GetComponent<TextMeshProUGUI>().text = "Length: " + pathHandles.Count() + "\tTime: " + timeMilli + "ms";
 		//time to complete operation
 		//Visualize node connection
+		UnityEngine.Debug.Log(pathHandles.Count());
+		for (int i=0; i<pathHandles.Count(); i++)
+		{
+			UnityEngine.Debug.Log(pathHandles[i]);
+
+		}
 	}
 
 	public void OnClick()

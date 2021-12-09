@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System;
 using System.Text;
 using System.Linq;
+using UnityEngine;
 
 public static class Pathfinder
 {
@@ -71,14 +72,18 @@ public static class Pathfinder
 		Queue<KeyValuePair<string, List<string>>> queue = new Queue<KeyValuePair<string, List<string>>>();
 		Dictionary<string, bool> visited = new Dictionary<string, bool>();
 
+
 		// Set all values in visted to false
 		foreach (var entry in adjList)
-			visited.Add(entry.Key, false);		
+		{
+			visited.Add(entry.Key, false);
+		}
 
 		queue.Enqueue(new KeyValuePair<string, List<string>>(node1, new List<string>()));
 
 		while (queue.Count > 0)
 		{
+			Debug.Log(queue.Peek().Key);
 			// Skip nodes we have already visited
 			if (visited[queue.Peek().Key])
 			{
@@ -101,7 +106,7 @@ public static class Pathfinder
 				List<string> newParents = new List<string>();
 				newParents.Concat(queue.Peek().Value);
 				newParents.Add(queue.Peek().Key);
-				queue.Enqueue(new KeyValuePair<string, List<string>>(next, newParents));
+				queue.Enqueue(new KeyValuePair<string, List<string>>(next.Key, newParents));
 			}
 
 			visited[queue.Peek().Key] = true;
