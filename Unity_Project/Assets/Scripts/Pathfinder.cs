@@ -6,18 +6,18 @@ using UnityEngine;
 
 public static class Pathfinder
 {
-    public static List<string> Dijkstra(string node1, string  node2, Dictionary<string, List<KeyValuePair<string, float>>> adjList)
+    public static List<string> Dijkstra(string node1, string  node2, Dictionary<string, List<KeyValuePair<string, float>>> adjList, Dictionary<string, Node> nodeList)
 	{
 		HashSet<string> computed = new HashSet<string>();
 		HashSet<string> process = new HashSet<string>();
 
-		foreach (var node in adjList)
+		foreach (var node in nodeList)
 			process.Add(node.Key);
 
-		Dictionary<string, float> distance = new Dictionary<string, float>(adjList.Count);
-		Dictionary<string, string> previous = new Dictionary<string, string>(adjList.Count);
+		Dictionary<string, float> distance = new Dictionary<string, float>(nodeList.Count);
+		Dictionary<string, string> previous = new Dictionary<string, string>(nodeList.Count);
 		
-		foreach (var entry in adjList)
+		foreach (var entry in nodeList)
 		{
 			distance[entry.Key] = Int32.MaxValue;
 			previous[entry.Key] = "";
