@@ -106,7 +106,8 @@ public static class Pathfinder
 					continue;
 				
 				List<string> newParents = new List<string>();
-				newParents.Concat(queue.Peek().Value);
+				foreach (var newPerson in queue.Peek().Value)
+					newParents.Add(newPerson);
 				newParents.Add(queue.Peek().Key);
 				queue.Enqueue(new KeyValuePair<string, List<string>>(next.Key, newParents));
 			}
