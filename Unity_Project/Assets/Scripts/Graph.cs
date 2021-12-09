@@ -76,4 +76,14 @@ public class Graph : MonoBehaviour
 		return newNode;
 	}
 
+	public void DijkstraFind()
+	{
+		throw new NotImplementedException();
+	}
+
+	public void BellmanFind()
+	{
+		throw new NotImplementedException();
+	}
+
 }
