@@ -12,6 +12,7 @@ using System.Diagnostics;
 public class Graph : MonoBehaviour
 {
 	public GameObject nodePrefab;
+	private GameObject[] pathNodes;
 
 	[Header("UI")]
 	public TMP_InputField fromUser;
@@ -144,6 +145,7 @@ public class Graph : MonoBehaviour
 		{
 			//print error if either don't exist
 			ErrorMessageField.SetActive(true);
+			SuccessMessageField.SetActive(false);
 			ErrorMessageField.GetComponent<TextMeshProUGUI>().text = "ERROR: A key doesn't exist!";
 			return;
 		}
@@ -158,16 +160,19 @@ public class Graph : MonoBehaviour
 		double timeMilli = clock.Elapsed.TotalMilliseconds;
 		//update Canvas with results
 		//length (if connected)
+		ErrorMessageField.SetActive(false);
 		SuccessMessageField.SetActive(true);
-		SuccessMessageField.GetComponent<TextMeshProUGUI>().text = "Length: " + pathHandles.Count() + "\tTime: " + timeMilli + "ms";
 		//time to complete operation
-		//Visualize node connection
+		SuccessMessageField.GetComponent<TextMeshProUGUI>().text = "Length: " + pathHandles.Count() + "\tTime: " + timeMilli + "ms";
 		UnityEngine.Debug.Log(pathHandles.Count());
 		for (int i=0; i<pathHandles.Count(); i++)
 		{
 			UnityEngine.Debug.Log(pathHandles[i]);
 
 		}
+
+		//Visualize node connection
+		DrawNodes(pathHandles);
 	}
 
 	public void OnClick()
@@ -184,6 +189,29 @@ public class Graph : MonoBehaviour
 			DijkstraFind();
 		}
 
+	}
+
+	void DrawNodes(List<string> pathHandles)
+	{
+		float nodeDist = (18 - (2 * margin)) / (float)(pathHandles.Count() - 1);
+
+		//clear old nodes  if they exist
+		if (pathNodes != null)
+		{
+			for (int i = 0; i < pathNodes.Length; i++)
+			{
+				Destroy(pathNodes[i]);
+			}
+		}
+
+		//make and draw new nodes
+		pathNodes = new GameObject[pathHandles.Count()];
+		for (int i = 0; i < pathHandles.Count(); i++)
+		{
+			float nodeX = -9 + margin + nodeDist * (i);
+			pathNodes[i] = GameObject.Instantiate(nodePrefab, new Vector3(nodeX, depth, 0), Quaternion.identity);
+			pathNodes[i].GetComponentInChildren<TextMesh>().text = pathHandles[i];
+		}
 	}
 
 

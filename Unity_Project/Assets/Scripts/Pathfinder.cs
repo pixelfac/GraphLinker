@@ -83,7 +83,6 @@ public static class Pathfinder
 
 		while (queue.Count > 0)
 		{
-			Debug.Log(queue.Peek().Key);
 			// Skip nodes we have already visited
 			if (visited[queue.Peek().Key])
 			{
@@ -103,7 +102,7 @@ public static class Pathfinder
 					return parents;
 				}
 
-				if (!adjList.ContainsKey(next))
+				if (!adjList.ContainsKey(next.Key))
 					continue;
 				
 				List<string> newParents = new List<string>();
