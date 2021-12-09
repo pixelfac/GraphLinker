@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum Games { Minecraft, Valorant, LoL, Smash }
 
-public class Node
+public class Node : MonoBehaviour
 {
     public string userID { get; }
     public string handle { get; }
@@ -34,6 +34,14 @@ public class Node
 	{
         return followingList.Contains(handle);
 	}
+
+    //returns edge weight for any edge going to this node
+    public int GetEdgeWeight()
+	{
+        return followerCount;
+	}
+
+
 
 
 }
