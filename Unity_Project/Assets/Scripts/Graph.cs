@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using UnityEngine.UI;
 using TMPro;
+using System.Diagnostics;
 
 public class Graph : MonoBehaviour
 {
@@ -22,7 +23,13 @@ public class Graph : MonoBehaviour
 
 	public void Start()
 	{
+		
+		Stopwatch clock = new Stopwatch();
+		clock.Start();
 		LoadAllFiles();
+		clock.Stop();
+		UnityEngine.Debug.Log(clock.Elapsed.TotalMilliseconds);
+		
 	}
 
 	//calls LoadFromFile each file in GraphData
@@ -34,10 +41,10 @@ public class Graph : MonoBehaviour
 		{
 			//ignore Unity-generated meta files
 			if (file.EndsWith(".meta")) { continue; }
-			Debug.Log("Reading File: " + count++);
+			UnityEngine.Debug.Log("Reading File: " + count++);
 			LoadFromFile(file);
 		}
-		Debug.Log(nodeList.Count());
+		UnityEngine.Debug.Log(nodeList.Count());
 	}
 
 	//creates a root node + assigns following to that node from csv
@@ -127,9 +134,9 @@ public class Graph : MonoBehaviour
 		//Dij = False, BFS = True
 		bool alg = ((int)AlgSwitch.value == 1);
 
-		Debug.Log(fromUserHandle);
-		Debug.Log(toUserHandle);
-		Debug.Log(alg);
+		UnityEngine.Debug.Log(fromUserHandle);
+		UnityEngine.Debug.Log(toUserHandle);
+		UnityEngine.Debug.Log(alg);
 	}
 
 
