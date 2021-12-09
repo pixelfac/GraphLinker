@@ -8,6 +8,9 @@ using System.Linq;
 
 public class Graph : MonoBehaviour
 {
+	public GameObject nodePrefab;
+	public Canvas menuUI;
+
     //takes in handle, returns linked list of Nodes
     Dictionary<string, Node> nodeList = new Dictionary<string, Node>();
 

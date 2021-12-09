@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Games { Minecraft, Valorant, LoL, Smash }
 
-public class Node : MonoBehaviour
+public class Node
 {
     public string userID { get; }
     public string handle { get; }
@@ -12,7 +11,6 @@ public class Node : MonoBehaviour
     public int followingCount { get; }
     public int followerCount { get; }
     HashSet<string> followingList = new HashSet<string>();
-    Games[] gameList;
 
     public Node(string userID, string handle, bool verified, int followerCount, int followingCount)
 	{
