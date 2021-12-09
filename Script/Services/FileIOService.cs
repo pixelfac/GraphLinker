@@ -43,7 +43,7 @@ namespace Sercices
             {
                 lines.Add(MakeCSVLine(user));
             }
-            
+
             File.WriteAllLines($"output/{rootUser.Username}.csv", lines);
         }
     }
