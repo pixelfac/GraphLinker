@@ -17,18 +17,18 @@ namespace Sercices
             builder.Append(",");
             builder.Append(user.Username);
             builder.Append(",");
-            builder.Append(user.Name);
-            builder.Append(",");
+            //builder.Append(user.Name);
+            //builder.Append(",");
             builder.Append(user.Verified);
             builder.Append(",");
 
             builder.Append(user.PublicMetrics.Followers);
             builder.Append(",");
             builder.Append(user.PublicMetrics.Following);
-            builder.Append(",");
-            builder.Append(user.PublicMetrics.Tweets);
-            builder.Append(",");
-            builder.Append(user.PublicMetrics.Listed);
+            //builder.Append(",");
+            //builder.Append(user.PublicMetrics.Tweets);
+            //builder.Append(",");
+            //builder.Append(user.PublicMetrics.Listed);
 
             return builder.ToString();
         }
@@ -43,7 +43,7 @@ namespace Sercices
             {
                 lines.Add(MakeCSVLine(user));
             }
-
+            
             File.WriteAllLines($"output/{rootUser.Username}.csv", lines);
         }
     }
