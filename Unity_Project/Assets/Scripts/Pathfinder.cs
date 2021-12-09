@@ -98,9 +98,10 @@ public static class Pathfinder
 					return parents;
 				}
 				
-				var parent = queue.Peek().Value;
-				parent.Add(queue.Peek().Key);
-				queue.Enqueue(new KeyValuePair<string, List<string>>(next, parent));
+				List<string> newParents = new List<string>();
+				newParents.Concat(queue.Peek().Value);
+				newParents.Add(queue.Peek().Key);
+				queue.Enqueue(new KeyValuePair<string, List<string>>(next, newParents));
 			}
 
 			visited[queue.Peek().Key] = true;
