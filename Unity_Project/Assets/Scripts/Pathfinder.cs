@@ -11,7 +11,7 @@ public static class Pathfinder
 		HashSet<string> computed = new HashSet<string>();
 		HashSet<string> process = new HashSet<string>();
 
-		foreach (var node in nodeList)
+		foreach (var node in adjList)
 			process.Add(node.Key);
 
 		Dictionary<string, float> distance = new Dictionary<string, float>(nodeList.Count);
@@ -43,7 +43,7 @@ public static class Pathfinder
 			int size = Int32.MaxValue;
 			foreach (var nextWorkingNode in process)
 			{
-				if (distance[nextWorkingNode] < size)
+				if (distance[nextWorkingNode] < size && adjList.Contains(nextWorkingNode))
 					nextNode = nextWorkingNode;
 			}
 
