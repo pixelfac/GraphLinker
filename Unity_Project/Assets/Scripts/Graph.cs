@@ -19,11 +19,13 @@ public class Graph : MonoBehaviour
 	//calls LoadFromFile each file in GraphData
 	void LoadAllFiles()
 	{
+		int count = 0;
 		var currDir = Directory.GetCurrentDirectory();
 		foreach (var file in Directory.GetFiles("Assets/GraphData"))
 		{
 			//ignore Unity-generated meta files
 			if (file.EndsWith(".meta")) { continue; }
+			Debug.Log("Reading File: " + count++);
 			LoadFromFile(file);
 		}
 		Debug.Log(nodeList.Count());
@@ -39,7 +41,7 @@ public class Graph : MonoBehaviour
 		{
 			nodeList.Add(rootNode.handle, rootNode);
 		}
-		catch (Exception e) { Debug.Log(e.Message); }
+		catch (Exception e) { }
 
         for (int i=1; i<lines.Length; i++)
 		{
@@ -51,7 +53,7 @@ public class Graph : MonoBehaviour
 			{
 				nodeList.Add(tempNode.handle, tempNode);
 			}
-			catch (Exception e) { Debug.Log(e.Message); }
+			catch (Exception e) { }
 
 			rootNode.AddFollowing(tempNode.handle);
 
