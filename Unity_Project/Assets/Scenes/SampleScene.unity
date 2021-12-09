@@ -416,7 +416,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 254661829}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 718718151}
+        m_TargetAssemblyTypeName: Graph, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &254661829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1352,7 +1364,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodePrefab: {fileID: 5869613231312221808, guid: a5dbff8e53a44d34aa09923024725777, type: 3}
-  menuUI: {fileID: 1533500810}
+  fromUser: {fileID: 445521574}
+  toUser: {fileID: 119132695}
+  AlgSwitch: {fileID: 1756183585}
 --- !u!4 &718718152
 Transform:
   m_ObjectHideFlags: 0

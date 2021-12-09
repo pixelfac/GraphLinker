@@ -5,11 +5,17 @@ using UnityEngine;
 using System.Threading.Tasks;
 using System.IO;
 using System.Linq;
+using UnityEngine.UI;
+using TMPro;
 
 public class Graph : MonoBehaviour
 {
 	public GameObject nodePrefab;
-	public Canvas menuUI;
+
+	public TMP_InputField fromUser;
+	public TMP_InputField toUser;
+	public Slider AlgSwitch;
+	
 
     //takes in handle, returns linked list of Nodes
     Dictionary<string, Node> nodeList = new Dictionary<string, Node>();
@@ -113,5 +119,18 @@ public class Graph : MonoBehaviour
 			//Visualize node connection
 		throw new NotImplementedException();
 	}
+
+	public void OnClick()
+	{
+		string fromUserHandle = fromUser.text;
+		string toUserHandle = toUser.text;
+		//Dij = False, BFS = True
+		bool alg = ((int)AlgSwitch.value == 1);
+
+		Debug.Log(fromUserHandle);
+		Debug.Log(toUserHandle);
+		Debug.Log(alg);
+	}
+
 
 }
