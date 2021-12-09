@@ -102,6 +102,9 @@ public static class Pathfinder
 
 					return parents;
 				}
+
+				if (!adjList.ContainsKey(next))
+					continue;
 				
 				List<string> newParents = new List<string>();
 				newParents.Concat(queue.Peek().Value);
