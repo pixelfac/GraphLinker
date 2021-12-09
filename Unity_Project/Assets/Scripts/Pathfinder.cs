@@ -5,13 +5,70 @@ using System.Linq;
 
 public static class Pathfinder
 {
-    public static List<string> Dijkstra(string node1, string  node2)
+    public static List<string> Dijkstra(string node1, string  node2, Dictionary<string, List<KeyValuePair<string, int>>> adjList)
 	{
-		throw new NotImplementedException("Dikstra's Not Yet Implemented");
+		HashSet<string> computed = new HashSet<string>();
+		HashSet<string> process = new HashSet<string>();
+
+		foreach (var node in adjList)
+			process.Add(node);
+
+		Dictionary<string, int> distance = new Dictionary<string, int>(adjList.Count);
+		Dictionary<string, string> previous = new Dictionary<string, string>(adjList.Count);
+		
+		foreach (var entry in adjList)
+		{
+			distance[entry] = UInt32.MaxValue;
+			previous[entry] = "";
+		}
+			
+		var workingNode = node1;
+		distance[workingNode] = 0;
+
+		while (process.Count > 0)
+		{
+			computed.Add(workingNode);
+
+			foreach (var child in adjList[workingNode])
+			{
+				if (distance[child.Key] > distance[workingNode] + child.Value)
+				{
+					distance[child.Key] = distance[workingNode] + child.Value;
+					previous[child.Key] = workingNode;
+				}
+			}
+
+			string nextNode = "";
+			int size = UInt32.MaxValue;
+			foreach (var nextWorkingNode in process)
+			{
+				if (distance[nextWorkingNode] < size)
+					nextNode = nextWorkingNode;
+			}
+
+			workingNode = nextNode;
+			process.Remove(workingNode);
+		}
+
+		List<string> result = new List<string>();
+
+		string curr = node2;
+
+		while (curr != node1)
+		{
+			string next = previous[curr];
+			result.Add(curr);
+			curr = next;
+		}
+
+		result.Add(curr);
+
+		result.Reverse();
+		return result;
 	}
-	public static List<string> BFS(string node1, string node2, Dictionary<string, List<string>> adjList)
+	public static List<string> BFS(string node1, string node2, Dictionary<string, List<KeyValuePair<string, int>>> adjList)
 	{
-		Queue<KeyValuePair<string, List<string>>> queue;
+		Queue<KeyValuePair<string, List<string>>> queue = new Queue<KeyValuePair<string, List<string>>>();
 		Dictionary<string, bool> visited = new Dictionary<string, bool>();
 
 		// Set all values in visted to false
