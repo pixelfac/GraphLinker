@@ -12,7 +12,9 @@ using System.Diagnostics;
 public class Graph : MonoBehaviour
 {
 	public GameObject nodePrefab;
-	private GameObject[] pathNodes;
+	private GameObject[] pathNodes = null;
+	private LineRenderer[] pathLines = null;
+	public LineRenderer line;
 
 	[Header("UI")]
 	public TMP_InputField fromUser;
@@ -110,29 +112,40 @@ public class Graph : MonoBehaviour
 	public void DijkstraFind()
 	{
 		//get handles from Canvas
+		string fromHandle = fromUser.text;
+		string toHandle = toUser.text;
 		//check if handles exist in Graph
-		//print error if either don't exist
+		if (!adjList.ContainsKey(fromHandle) || !nodeList.ContainsKey(toHandle))
+		{
+			//print error if either don't exist
+			ErrorMessageField.SetActive(true);
+			SuccessMessageField.SetActive(false);
+			ErrorMessageField.GetComponent<TextMeshProUGUI>().text = "ERROR: A key doesn't exist!";
+			return;
+		}
 		//start timer
-		//Pathfinder.Dijkstra(fromUserHandle, toUserHandle);
-
+		Stopwatch clock = new Stopwatch();
+		clock.Start();
+		List<string> pathHandles = Pathfinder.Dijkstra(fromHandle, toHandle, adjList, nodeList);
 		//stop timer
+		clock.Stop();
 		//record time diff
+		double timeMilli = clock.Elapsed.TotalMilliseconds;
 		//update Canvas with results
 		//length (if connected)
+		ErrorMessageField.SetActive(false);
+		SuccessMessageField.SetActive(true);
 		//time to complete operation
-		//Visualize node connection
-
-		string[] pathHandles = { "1", "2", "3", "4", "5" };
-		float nodeDist = (18 - (2 * margin)) / (float)(pathHandles.Length-1);
-
-
-		GameObject[] pathNodes = new GameObject[pathHandles.Length];
-		for (int i = 0; i < pathHandles.Length; i++)
+		SuccessMessageField.GetComponent<TextMeshProUGUI>().text = "Length: " + pathHandles.Count() + "\tTime: " + timeMilli + "ms";
+		UnityEngine.Debug.Log(pathHandles.Count());
+		for (int i = 0; i < pathHandles.Count(); i++)
 		{
-			float nodeX = -9 + margin + nodeDist*(i);
-			pathNodes[i] = GameObject.Instantiate(nodePrefab, new Vector3(nodeX, depth, 0), Quaternion.identity);
-			pathNodes[i].GetComponentInChildren<TextMesh>().text = pathHandles[i];
+			UnityEngine.Debug.Log(pathHandles[i]);
+
 		}
+
+		//Visualize node connection
+		DrawNodes(pathHandles);
 	}
 
 	public void BFSFind()
@@ -211,6 +224,15 @@ public class Graph : MonoBehaviour
 			float nodeX = -9 + margin + nodeDist * (i);
 			pathNodes[i] = GameObject.Instantiate(nodePrefab, new Vector3(nodeX, depth, 0), Quaternion.identity);
 			pathNodes[i].GetComponentInChildren<TextMesh>().text = pathHandles[i];
+		}
+
+		pathLines = new LineRenderer[pathHandles.Count()];
+		for (int i = 0; i < pathHandles.Count()-1; i++)
+		{
+			LineRenderer newLine = line;
+			newLine.SetPosition(0, pathNodes[i].transform.position);
+			newLine.SetPosition(1, pathNodes[i+1].transform.position);
+			pathLines[i] = newLine;
 		}
 	}
 
