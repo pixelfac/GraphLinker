@@ -13,18 +13,29 @@ public class Graph : MonoBehaviour
 {
 	public GameObject nodePrefab;
 
+	[Header("UI")]
 	public TMP_InputField fromUser;
 	public TMP_InputField toUser;
 	public Slider AlgSwitch;
+	public GameObject ErrorMessageField;
+	public GameObject SuccessMessageField;
+
+	[Header("Visualizer")]
+	public int depth;
+	public int margin;
 	
 
     //takes in handle, returns linked list of Nodes
     Dictionary<string, Node> nodeList = new Dictionary<string, Node>();
-    Dictionary<string, LinkedList<string>> adjList = new Dictionary<string, LinkedList<string>>();
+    Dictionary<string, List<KeyValuePair<string, float>>> adjList = new Dictionary<string, List<KeyValuePair<string, float>>>();
 
 	public void Start()
 	{
-		
+		//hide message fields
+		ErrorMessageField.SetActive(false);
+		SuccessMessageField.SetActive(false);
+
+		//time loading all files
 		Stopwatch clock = new Stopwatch();
 		clock.Start();
 		LoadAllFiles();
@@ -57,7 +68,7 @@ public class Graph : MonoBehaviour
 		try
 		{
 			nodeList.Add(rootNode.handle, rootNode);
-			adjList.Add(rootNode.handle, new LinkedList<string>());
+			adjList.Add(rootNode.handle, new List<KeyValuePair<string, float>>());
 		}
 		catch (Exception e) { }
 
@@ -70,7 +81,7 @@ public class Graph : MonoBehaviour
 			try
 			{
 				nodeList.Add(tempNode.handle, tempNode);
-				adjList[rootNode.handle].AddLast(tempNode.handle);
+				adjList[rootNode.handle].Add(new KeyValuePair<string,float>(tempNode.handle, tempNode.GetEdgeWeight()));
 			}
 			catch (Exception e) { }
 		}
@@ -110,35 +121,58 @@ public class Graph : MonoBehaviour
 		//time to complete operation
 		//Visualize node connection
 
-		GameObject startNode = GameObject.Instantiate(nodePrefab, new Vector3(0, 0, 0), Quaternion.identity);
-		startNode.transform.position = new Vector3(-3, -3, 0);
+		string[] pathHandles = { "1", "2", "3", "4", "5" };
+		float nodeDist = (18 - (2 * margin)) / (float)(pathHandles.Length-1);
+
+
+		GameObject[] pathNodes = new GameObject[pathHandles.Length];
+		for (int i = 0; i < pathHandles.Length; i++)
+		{
+			float nodeX = -9 + margin + nodeDist*(i);
+			pathNodes[i] = GameObject.Instantiate(nodePrefab, new Vector3(nodeX, depth, 0), Quaternion.identity);
+			pathNodes[i].GetComponentInChildren<TextMesh>().text = pathHandles[i];
+		}
 	}
 
 	public void BFSFind()
 	{
 		//get handles from Canvas
+		string fromHandle = fromUser.text;
+		string toHandle = toUser.text;
 		//check if handles exist in Graph
-		//print error if either don't exist
+		if (!nodeList.ContainsKey(fromHandle) && !nodeList.ContainsKey(toHandle))
+		{
+			//print error if either don't exist
+			ErrorMessageField.GetComponent<TextMeshPro>().text = "ERROR: A key doesn't exist!";
+		}
+
 		//start timer
-		//Pathfinder.Dijkstra(fromUserHandle, toUserHandle);
+		Stopwatch clock = new Stopwatch();
+		clock.Start();
+		Pathfinder.BFS(fromHandle, toHandle, adjList);
+		clock.Stop();
 		//stop timer
 		//record time diff
 		//update Canvas with results
-			//length (if connected)
-			//time to complete operation
-			//Visualize node connection
+		//length (if connected)
+		//time to complete operation
+		//Visualize node connection
 	}
 
 	public void OnClick()
 	{
-		string fromUserHandle = fromUser.text;
-		string toUserHandle = toUser.text;
 		//Dij = False, BFS = True
 		bool alg = ((int)AlgSwitch.value == 1);
 
-		
+		if (alg)
+		{
+			BFSFind();
+		}
+		else
+		{
+			DijkstraFind();
+		}
 
-		DijkstraFind();
 	}
 
 

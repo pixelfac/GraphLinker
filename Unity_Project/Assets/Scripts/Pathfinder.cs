@@ -5,21 +5,21 @@ using System.Linq;
 
 public static class Pathfinder
 {
-    public static List<string> Dijkstra(string node1, string  node2, Dictionary<string, List<KeyValuePair<string, int>>> adjList)
+    public static List<string> Dijkstra(string node1, string  node2, Dictionary<string, List<KeyValuePair<string, float>>> adjList)
 	{
 		HashSet<string> computed = new HashSet<string>();
 		HashSet<string> process = new HashSet<string>();
 
 		foreach (var node in adjList)
-			process.Add(node);
+			process.Add(node.Key);
 
-		Dictionary<string, int> distance = new Dictionary<string, int>(adjList.Count);
+		Dictionary<string, float> distance = new Dictionary<string, float>(adjList.Count);
 		Dictionary<string, string> previous = new Dictionary<string, string>(adjList.Count);
 		
 		foreach (var entry in adjList)
 		{
-			distance[entry] = UInt32.MaxValue;
-			previous[entry] = "";
+			distance[entry.Key] = Int32.MaxValue;
+			previous[entry.Key] = "";
 		}
 			
 		var workingNode = node1;
@@ -39,7 +39,7 @@ public static class Pathfinder
 			}
 
 			string nextNode = "";
-			int size = UInt32.MaxValue;
+			int size = Int32.MaxValue;
 			foreach (var nextWorkingNode in process)
 			{
 				if (distance[nextWorkingNode] < size)
@@ -66,7 +66,7 @@ public static class Pathfinder
 		result.Reverse();
 		return result;
 	}
-	public static List<string> BFS(string node1, string node2, Dictionary<string, List<KeyValuePair<string, int>>> adjList)
+	public static List<string> BFS(string node1, string node2, Dictionary<string, List<KeyValuePair<string, float>>> adjList)
 	{
 		Queue<KeyValuePair<string, List<string>>> queue = new Queue<KeyValuePair<string, List<string>>>();
 		Dictionary<string, bool> visited = new Dictionary<string, bool>();
@@ -88,7 +88,7 @@ public static class Pathfinder
 
 			foreach (var next in adjList[queue.Peek().Key])
 			{
-				if (next == node2)
+				if (next.Key == node2)
 				{
 					var parents = queue.Peek().Value;
 
