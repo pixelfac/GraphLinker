@@ -13,7 +13,7 @@ namespace Script
     {
         static async Task Main(string[] args)
         {
-            TwitterService service = new TwitterService("");
+            TwitterService service = new TwitterService("AAAAAAAAAAAAAAAAAAAAABRoWQEAAAAAJZR7mPFouya5TJXoSFlJRINHnlU%3De9j9t43DeCEjns9zl5PvW2VFEte9CLmBwPwsqifY6G7eZZFQcv");
 
             //TwitterUser tommy = await service.GetUserByHandle("tommyinnit");
             //FollowingResponse response = await service.GetFollowingByUser(tommy);
@@ -23,14 +23,14 @@ namespace Script
 
             //FileIOService.ToCSV(tommy, response.data);
 
-            // var lines = 0;
-            // foreach (var file in Directory.GetFiles("output"))
-            // {
-            //     lines += (await File.ReadAllLinesAsync(file)).Count();
-            // }
-            // Console.WriteLine(lines);
+            var lines = 0;
+            foreach (var file in Directory.GetFiles("output"))
+            {
+                lines += (await File.ReadAllLinesAsync(file)).Count();
+            }
+            Console.WriteLine(lines);
 
-            foreach (var creator in await File.ReadAllLinesAsync("creators.txt"))
+            /*foreach (var creator in await File.ReadAllLinesAsync("creators.txt"))
             {
                 if (File.Exists($"output/{creator}.csv"))
                     continue;
@@ -56,7 +56,7 @@ namespace Script
                 }
 
                 FileIOService.ToCSV(user, response.data);
-            }
+            }*/
         }
     }
 }
