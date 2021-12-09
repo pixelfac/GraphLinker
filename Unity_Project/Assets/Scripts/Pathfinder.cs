@@ -39,12 +39,12 @@ public static class Pathfinder
 				}
 			}
 
-			string nextNode = "";
+			string nextNode = process[0];
 			int size = Int32.MaxValue;
-			foreach (var nextWorkingNode in process)
+			for (int i = 1; i < process.Count; i++)
 			{
-				if (distance[nextWorkingNode] < size && adjList.Contains(nextWorkingNode))
-					nextNode = nextWorkingNode;
+				if (distance[process[i]] < size)
+					nextNode = process[i];
 			}
 
 			workingNode = nextNode;
