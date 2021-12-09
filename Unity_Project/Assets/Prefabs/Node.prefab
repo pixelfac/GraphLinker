@@ -83,7 +83,7 @@ TextMesh:
   m_GameObject: {fileID: 1304770954753158139}
   m_Text: Hello World
   m_OffsetZ: 0
-  m_CharacterSize: 0.39
+  m_CharacterSize: 0.3
   m_LineSpacing: 1
   m_Anchor: 4
   m_Alignment: 0
