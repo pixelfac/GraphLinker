@@ -13,7 +13,7 @@ namespace Script
     {
         static async Task Main(string[] args)
         {
-            TwitterService service = new TwitterService("AAAAAAAAAAAAAAAAAAAAABRoWQEAAAAAJZR7mPFouya5TJXoSFlJRINHnlU%3De9j9t43DeCEjns9zl5PvW2VFEte9CLmBwPwsqifY6G7eZZFQcv");
+            TwitterService service = new TwitterService("");
 
             //TwitterUser tommy = await service.GetUserByHandle("tommyinnit");
             //FollowingResponse response = await service.GetFollowingByUser(tommy);
