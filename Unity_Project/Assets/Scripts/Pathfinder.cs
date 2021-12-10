@@ -11,12 +11,14 @@ public static class Pathfinder
 		HashSet<string> computed = new HashSet<string>();
 		HashSet<string> process = new HashSet<string>();
 
+		//O(n)
 		foreach (var node in adjList)
 			process.Add(node.Key);
 
 		Dictionary<string, float> distance = new Dictionary<string, float>(nodeList.Count);
 		Dictionary<string, string> previous = new Dictionary<string, string>(nodeList.Count);
-		
+
+		//O(m)
 		foreach (var entry in nodeList)
 		{
 			distance[entry.Key] = Int32.MaxValue;
@@ -26,12 +28,15 @@ public static class Pathfinder
 		var workingNode = node1;
 		distance[workingNode] = 0;
 
+		//O(v(v+e))
 		while (process.Count > 0)
 		{
 			computed.Add(workingNode);
 
+			//O(p)
 			foreach (var child in adjList[workingNode])
 			{
+				//O(1)
 				if (distance[child.Key] > distance[workingNode] + child.Value)
 				{
 					distance[child.Key] = distance[workingNode] + child.Value;
@@ -42,6 +47,7 @@ public static class Pathfinder
 			var iter = process.GetEnumerator();
 			iter.MoveNext();
 			var nextNode = iter.Current;
+			//O(n)
 			for (int i = 0; i < process.Count; i++)
 			{
 				if (distance[iter.Current] < distance[nextNode])
@@ -58,6 +64,7 @@ public static class Pathfinder
 
 		string curr = node2;
 
+		//O(n)
 		while (curr != node1)
 		{
 			string next = previous[curr];
@@ -75,7 +82,7 @@ public static class Pathfinder
 		Queue<KeyValuePair<string, List<string>>> queue = new Queue<KeyValuePair<string, List<string>>>();
 		Dictionary<string, bool> visited = new Dictionary<string, bool>();
 
-
+		//O(n)
 		// Set all values in visted to false
 		foreach (var entry in adjList)
 		{
@@ -84,6 +91,7 @@ public static class Pathfinder
 
 		queue.Enqueue(new KeyValuePair<string, List<string>>(node1, new List<string>()));
 
+		//O(v*e*v)
 		while (queue.Count > 0)
 		{
 			// Skip nodes we have already visited

@@ -13,7 +13,6 @@ public class Graph : MonoBehaviour
 {
 	public GameObject nodePrefab;
 	private GameObject[] pathNodes = null;
-	private LineRenderer[] pathLines = null;
 	public LineRenderer line;
 
 	[Header("UI")]
@@ -26,14 +25,25 @@ public class Graph : MonoBehaviour
 	[Header("Visualizer")]
 	public int depth;
 	public int margin;
-	
 
-    //takes in handle, returns linked list of Nodes
-    Dictionary<string, Node> nodeList = new Dictionary<string, Node>();
+	[Header("Stats Page")]
+	public TextMeshProUGUI lineCount;
+	public TextMeshProUGUI numFiles;
+	public TextMeshProUGUI timeToLoad;
+	public TextMeshProUGUI sizeOfDict;
+
+
+
+	//takes in handle, returns linked list of Nodes
+	Dictionary<string, Node> nodeList = new Dictionary<string, Node>();
     Dictionary<string, List<KeyValuePair<string, float>>> adjList = new Dictionary<string, List<KeyValuePair<string, float>>>();
 
 	public void Start()
 	{
+		//hide line
+		line.SetPosition(0, new Vector3(-2, -7, 0));
+		line.SetPosition(1, new Vector3(-2, 7, 0));
+
 		//hide message fields
 		ErrorMessageField.SetActive(false);
 		SuccessMessageField.SetActive(false);
@@ -44,7 +54,19 @@ public class Graph : MonoBehaviour
 		LoadAllFiles();
 		clock.Stop();
 		UnityEngine.Debug.Log(clock.Elapsed.TotalMilliseconds);
-		
+
+		//set Stats in Stats Page
+		var lines = 0;
+		foreach (var file in Directory.GetFiles("Assets/GraphData"))
+		{
+			if (file.EndsWith(".meta")) { continue; }
+			lines += File.ReadAllLines(file).Count();
+		}
+		lineCount.text = "Lines Parsed: " + lines;
+		timeToLoad.text = "Time to Load Data: " + clock.Elapsed.TotalMilliseconds + "ms";
+		sizeOfDict.text = "Number of Vertices: " + nodeList.Count();
+
+
 	}
 
 	//calls LoadFromFile each file in GraphData
@@ -59,7 +81,7 @@ public class Graph : MonoBehaviour
 			UnityEngine.Debug.Log("Reading File: " + count++);
 			LoadFromFile(file);
 		}
-		UnityEngine.Debug.Log(nodeList.Count());
+		numFiles.text = "Number of Files Parsed: " + count;
 	}
 
 	//creates a root node + assigns following to that node from csv
@@ -145,7 +167,7 @@ public class Graph : MonoBehaviour
 		}
 
 		//Visualize node connection
-		DrawNodes(pathHandles);
+		DrawNodes(pathHandles, true);
 	}
 
 	public void BFSFind()
@@ -185,7 +207,7 @@ public class Graph : MonoBehaviour
 		}
 
 		//Visualize node connection
-		DrawNodes(pathHandles);
+		DrawNodes(pathHandles, false);
 	}
 
 	public void OnClick()
@@ -204,7 +226,7 @@ public class Graph : MonoBehaviour
 
 	}
 
-	void DrawNodes(List<string> pathHandles)
+	void DrawNodes(List<string> pathHandles, bool isDijk)
 	{
 		float nodeDist = (18 - (2 * margin)) / (float)(pathHandles.Count() - 1);
 
@@ -216,6 +238,12 @@ public class Graph : MonoBehaviour
 				Destroy(pathNodes[i]);
 			}
 		}
+		line.gameObject.SetActive(false);
+
+		line.SetPosition(0, new Vector3(-7,-2,0));
+		line.SetPosition(1, new Vector3(7, -2, 0));
+		line.gameObject.SetActive(true);
+
 
 		//make and draw new nodes
 		pathNodes = new GameObject[pathHandles.Count()];
@@ -223,16 +251,15 @@ public class Graph : MonoBehaviour
 		{
 			float nodeX = -9 + margin + nodeDist * (i);
 			pathNodes[i] = GameObject.Instantiate(nodePrefab, new Vector3(nodeX, depth, 0), Quaternion.identity);
-			pathNodes[i].GetComponentInChildren<TextMesh>().text = pathHandles[i];
-		}
-
-		pathLines = new LineRenderer[pathHandles.Count()];
-		for (int i = 0; i < pathHandles.Count()-1; i++)
-		{
-			LineRenderer newLine = line;
-			newLine.SetPosition(0, pathNodes[i].transform.position);
-			newLine.SetPosition(1, pathNodes[i+1].transform.position);
-			pathLines[i] = newLine;
+			pathNodes[i].GetComponentsInChildren<TextMesh>()[0].text = pathHandles[i];
+			if (isDijk)
+			{
+				pathNodes[i].GetComponentsInChildren<TextMesh>()[1].text = "Weight: " + nodeList[pathHandles[i]].GetEdgeWeight();
+			} 
+			else
+			{
+				pathNodes[i].GetComponentsInChildren<TextMesh>()[1].text = "";
+			}
 		}
 	}
 

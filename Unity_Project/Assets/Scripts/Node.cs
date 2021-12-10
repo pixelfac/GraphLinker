@@ -23,7 +23,7 @@ public class Node
     //returns edge weight for any edge going to this node
     public float GetEdgeWeight()
 	{
-        return 1 / followerCount;
+        return (1 / (float)followerCount) * 10000000;
 	}
 
 
