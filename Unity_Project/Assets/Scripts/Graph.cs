@@ -153,6 +153,16 @@ public class Graph : MonoBehaviour
 		clock.Stop();
 		//record time diff
 		double timeMilli = clock.Elapsed.TotalMilliseconds;
+
+		if (pathHandles == null)
+		{
+			//print error if no path
+			ErrorMessageField.SetActive(true);
+			SuccessMessageField.SetActive(false);
+			ErrorMessageField.GetComponent<TextMeshProUGUI>().text = "ERROR: A link doesn't exist!";
+			return;
+		}
+
 		//update Canvas with results
 		//length (if connected)
 		ErrorMessageField.SetActive(false);
@@ -193,6 +203,15 @@ public class Graph : MonoBehaviour
 		clock.Stop();
 		//record time diff
 		double timeMilli = clock.Elapsed.TotalMilliseconds;
+
+		if (pathHandles == null)
+		{
+			//print error if no path
+			ErrorMessageField.SetActive(true);
+			SuccessMessageField.SetActive(false);
+			ErrorMessageField.GetComponent<TextMeshProUGUI>().text = "ERROR: A link doesn't exist!";
+			return;
+		}
 		//update Canvas with results
 		//length (if connected)
 		ErrorMessageField.SetActive(false);

@@ -67,6 +67,7 @@ public static class Pathfinder
 		//O(n)
 		while (curr != node1)
 		{
+			if (!previous.ContainsKey(curr)) { return null; }
 			string next = previous[curr];
 			result.Add(curr);
 			curr = next;
@@ -91,7 +92,7 @@ public static class Pathfinder
 
 		queue.Enqueue(new KeyValuePair<string, List<string>>(node1, new List<string>()));
 
-		//O(v*e*v)
+		//O(e*v)
 		while (queue.Count > 0)
 		{
 			// Skip nodes we have already visited
